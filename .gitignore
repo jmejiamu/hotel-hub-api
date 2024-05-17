@@ -1,0 +1,13 @@
+/node_modules
+
+*.env
+
+*.yml
+
+*.dockerignore
+
+Makefile
+
+queries.md
+
+*.vscode
