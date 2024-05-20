@@ -8,8 +8,11 @@ import {
 
 @Entity("register")
 export class Register extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
+
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  user_id: string;
 
   @Column()
   email: string;
@@ -26,8 +29,11 @@ export class Register extends BaseEntity {
 
 @Entity("signin")
 export class Signin extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
+
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  user_id: string;
 
   @Column()
   email: string;
