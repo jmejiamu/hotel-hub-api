@@ -5,7 +5,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Healer, FrontendDesk, Customer } from "./index";
+import { Healer, FrontendDesk, Customer } from "../entities";
 
 @Entity("company_code")
 export class CompanyCode extends BaseEntity {
