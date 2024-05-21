@@ -1,6 +1,13 @@
 import { DataSource } from "typeorm";
 import dotenv from "dotenv";
-import { Register, Signin } from "../entities";
+import {
+  Register,
+  Signin,
+  CompanyCode,
+  Customer,
+  FrontendDesk,
+  Healer,
+} from "../entities";
 dotenv.config();
 
 const port = Number(process.env.DB_PORT);
@@ -12,6 +19,6 @@ export const dbConnection = new DataSource({
   port: port,
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
-  entities: [Register, Signin],
+  entities: [Register, Signin, CompanyCode, Customer, FrontendDesk, Healer],
   synchronize: true,
 });

@@ -2,6 +2,7 @@ import {
   BaseEntity,
   Column,
   Entity,
+  Generated,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -11,7 +12,8 @@ export class Register extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @PrimaryGeneratedColumn("uuid")
+  @Column()
+  @Generated("uuid")
   user_id: string;
 
   @Column()
@@ -32,7 +34,8 @@ export class Signin extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @PrimaryGeneratedColumn("uuid")
+  @Column()
+  @Generated("uuid")
   user_id: string;
 
   @Column()
