@@ -44,6 +44,9 @@ export class Signin extends BaseEntity {
   @Column()
   password: string;
 
+  @Column()
+  username: string;
+
   @OneToMany(() => Register, (reg) => reg.register)
   signin: Signin;
 }
