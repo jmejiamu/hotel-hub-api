@@ -5,7 +5,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Healer, FrontendDesk, Customer } from "../entities";
+import { Healer, FrontendDesk, Customer, Calendar } from "../entities";
 
 @Entity("company_code")
 export class CompanyCode extends BaseEntity {
@@ -26,4 +26,7 @@ export class CompanyCode extends BaseEntity {
 
   @OneToMany(() => Customer, (customer) => customer.company)
   customer: Customer[];
+
+  @OneToMany(() => Calendar, (calendar) => calendar.company)
+  calendar: Calendar[];
 }

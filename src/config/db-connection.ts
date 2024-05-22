@@ -7,6 +7,7 @@ import {
   Customer,
   FrontendDesk,
   Healer,
+  Calendar,
 } from "../entities";
 dotenv.config();
 
@@ -19,6 +20,14 @@ export const dbConnection = new DataSource({
   port: port,
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
-  entities: [Register, Signin, CompanyCode, Customer, FrontendDesk, Healer],
+  entities: [
+    Register,
+    Signin,
+    CompanyCode,
+    Customer,
+    FrontendDesk,
+    Healer,
+    Calendar,
+  ],
   synchronize: true,
 });
