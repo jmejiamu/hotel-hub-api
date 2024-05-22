@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 export const authRoute = express.Router();
 
 authRoute.post("/register", async (req: Request, res: Response) => {
-  const { email, username, password } = req.body;
+  const { email, username, password, userType } = req.body;
   const source = dbConnection;
   try {
     const userRepository = source.getRepository(Register);
@@ -27,6 +27,7 @@ authRoute.post("/register", async (req: Request, res: Response) => {
       username,
       password: hashedPassword,
       user_id,
+      userType,
     });
 
     await source.manager.save(Signin, {
@@ -34,6 +35,7 @@ authRoute.post("/register", async (req: Request, res: Response) => {
       password: hashedPassword,
       user_id,
       username,
+      userType,
     });
 
     return res
