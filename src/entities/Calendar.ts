@@ -20,6 +20,10 @@ export class Calendar extends BaseEntity {
   event_id: string;
 
   @Column()
+  @Generated("uuid")
+  user_id: string;
+
+  @Column()
   event_title: string;
 
   @Column()
