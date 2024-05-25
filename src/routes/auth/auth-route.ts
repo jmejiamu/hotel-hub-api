@@ -1,27 +1,45 @@
 import { comparePassword, createJWT, hasPassword } from "../../utils/auth";
+import { HttpStatusCode, UserType, logger } from "../../utils";
 import { Register, Signin } from "../../entities/auth-entity";
 import express, { Request, Response } from "express";
-import { HttpStatusCode, logger } from "../../utils";
+import { CompanyCode } from "../../entities";
 import { dbConnection } from "../../config";
 import { v4 as uuidv4 } from "uuid";
 
 export const authRoute = express.Router();
 
 authRoute.post("/register", async (req: Request, res: Response) => {
-  const { email, username, password, userType } = req.body;
+  const { email, username, password, userType, company_code } = req.body;
   const source = dbConnection;
   try {
     const userRepository = source.getRepository(Register);
     const existingUser = await userRepository.findOne({ where: { email } });
 
     if (existingUser) {
-      return res
-        .status(HttpStatusCode.BAD_REQUEST)
-        .json({ message: "User already exists" });
+      return res.status(HttpStatusCode.BAD_REQUEST).json({
+        message: "User already exists",
+        status: HttpStatusCode.BAD_REQUEST,
+      });
+    }
+
+    const companyCodeRepository = source.getRepository(CompanyCode);
+    const existingCompany = await companyCodeRepository.findOne({
+      where: { code: company_code },
+    });
+
+    if (
+      existingCompany?.code !== company_code &&
+      (userType === UserType.FRONTEND_DESK || userType === UserType.HEALER)
+    ) {
+      return res.status(HttpStatusCode.BAD_REQUEST).json({
+        message: "Company code does not exist",
+        status: HttpStatusCode.BAD_REQUEST,
+      });
     }
 
     const user_id = uuidv4();
     const hashedPassword = await hasPassword(password);
+
     await source.manager.save(Register, {
       email,
       username,
@@ -38,9 +56,12 @@ authRoute.post("/register", async (req: Request, res: Response) => {
       userType,
     });
 
-    return res
-      .status(HttpStatusCode.CREATED)
-      .json({ message: "User registered" });
+    const token = createJWT(email);
+    return res.status(HttpStatusCode.CREATED).json({
+      message: "User registered",
+      status: HttpStatusCode.CREATED,
+      token,
+    });
   } catch (error) {
     logger.error(error);
     return res
