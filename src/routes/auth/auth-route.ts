@@ -61,6 +61,9 @@ authRoute.post("/register", async (req: Request, res: Response) => {
       message: "User registered",
       status: HttpStatusCode.CREATED,
       token,
+      user_id,
+      username,
+      userType,
     });
   } catch (error) {
     logger.error(error);
