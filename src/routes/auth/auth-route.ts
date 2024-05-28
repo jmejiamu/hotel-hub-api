@@ -96,9 +96,11 @@ authRoute.post("/login", async (req: Request, res: Response) => {
     const token = createJWT(user.email);
     return res.status(HttpStatusCode.OK).json({
       message: "Login successful",
+      status: HttpStatusCode.CREATED,
       token,
       user_id: user.user_id,
       username: user.username,
+      userType: user.userType,
     });
   } catch (error) {
     logger.error(error);
