@@ -74,16 +74,32 @@ authRoute.post("/register", async (req: Request, res: Response) => {
 });
 
 authRoute.post("/login", async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, password, company_code, userType } = req.body;
   const source = dbConnection;
   try {
     const userRepository = source.getRepository(Signin);
     const user = await userRepository.findOne({ where: { email } });
 
+    console.log("🚀 ~ authRoute.post ~ company_code:", company_code);
     if (!user) {
       return res
         .status(HttpStatusCode.NOT_FOUND)
         .json({ message: "User not found" });
+    }
+
+    const companyCodeRepository = source.getRepository(CompanyCode);
+    const existingCompany = await companyCodeRepository.findOne({
+      where: { code: company_code },
+    });
+
+    if (
+      existingCompany?.code !== company_code &&
+      (userType === UserType.FRONTEND_DESK || userType === UserType.HEALER)
+    ) {
+      return res.status(HttpStatusCode.BAD_REQUEST).json({
+        message: "Company code does not exist",
+        status: HttpStatusCode.BAD_REQUEST,
+      });
     }
 
     const isPasswordValid = await comparePassword(password, user.password);
