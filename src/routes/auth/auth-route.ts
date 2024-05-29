@@ -80,7 +80,6 @@ authRoute.post("/login", async (req: Request, res: Response) => {
     const userRepository = source.getRepository(Signin);
     const user = await userRepository.findOne({ where: { email } });
 
-    console.log("🚀 ~ authRoute.post ~ company_code:", company_code);
     if (!user) {
       return res
         .status(HttpStatusCode.NOT_FOUND)
@@ -95,6 +94,26 @@ authRoute.post("/login", async (req: Request, res: Response) => {
     if (
       existingCompany?.code !== company_code &&
       (userType === UserType.FRONTEND_DESK || userType === UserType.HEALER)
+    ) {
+      return res.status(HttpStatusCode.BAD_REQUEST).json({
+        message: "Company code does not exist",
+        status: HttpStatusCode.BAD_REQUEST,
+      });
+    }
+
+    if (
+      user.userType === UserType.CUSTOMER &&
+      existingCompany?.code === company_code
+    ) {
+      return res.status(HttpStatusCode.BAD_REQUEST).json({
+        message: "Company code does not exist",
+        status: HttpStatusCode.BAD_REQUEST,
+      });
+    }
+    if (
+      (user.userType === UserType.FRONTEND_DESK ||
+        user.userType === UserType.HEALER) &&
+      existingCompany?.code !== company_code
     ) {
       return res.status(HttpStatusCode.BAD_REQUEST).json({
         message: "Company code does not exist",
