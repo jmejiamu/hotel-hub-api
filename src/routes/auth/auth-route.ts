@@ -1,8 +1,8 @@
+import { CompanyCode, Customer, FrontendDesk, Healer } from "../../entities";
 import { comparePassword, createJWT, hasPassword } from "../../utils/auth";
 import { HttpStatusCode, UserType, logger } from "../../utils";
 import { Register, Signin } from "../../entities/auth-entity";
 import express, { Request, Response } from "express";
-import { CompanyCode } from "../../entities";
 import { dbConnection } from "../../config";
 import { v4 as uuidv4 } from "uuid";
 
@@ -55,6 +55,28 @@ authRoute.post("/register", async (req: Request, res: Response) => {
       username,
       userType,
     });
+
+    if (userType === UserType.CUSTOMER) {
+      await source.manager.save(Customer, {
+        email,
+        username,
+        user_id,
+      });
+    }
+    if (userType === UserType.FRONTEND_DESK) {
+      await source.manager.save(FrontendDesk, {
+        email,
+        username,
+        user_id,
+      });
+    }
+    if (userType === UserType.HEALER) {
+      await source.manager.save(Healer, {
+        email,
+        username,
+        user_id,
+      });
+    }
 
     const token = createJWT(email);
     return res.status(HttpStatusCode.CREATED).json({
