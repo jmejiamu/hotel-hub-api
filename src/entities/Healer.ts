@@ -2,6 +2,7 @@ import {
   BaseEntity,
   Column,
   Entity,
+  Generated,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -14,6 +15,10 @@ export class Healer extends BaseEntity {
 
   @Column()
   username: string;
+
+  @Column()
+  @Generated("uuid")
+  user_id: string;
 
   @Column({ unique: true })
   email: string;
