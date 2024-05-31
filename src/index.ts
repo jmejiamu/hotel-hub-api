@@ -1,5 +1,5 @@
+import { authRoute, customerRoute, verifyRoute } from "./routes";
 import { dbConnection } from "./config";
-import { authRoute, verifyRoute } from "./routes";
 import { logger } from "./utils";
 import express from "express";
 import morgan from "morgan";
@@ -17,6 +17,7 @@ app.use(cors());
 
 app.use("/api-v1", authRoute);
 app.use("/api-v1", verifyRoute);
+app.use("/api-v1", customerRoute);
 
 dbConnection
   .initialize()
