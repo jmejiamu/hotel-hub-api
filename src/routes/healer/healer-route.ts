@@ -38,17 +38,20 @@ healerRoute.put("/healer-calendar", async (req: Request, res: Response) => {
   }
 });
 
-healerRoute.get("/healer-schedule", async (req: Request, res: Response) => {
-  const { user_id } = req.params;
-  const source = dbConnection;
-  try {
-    const healerRepository = source.getRepository(Calendar);
-    const healers = await healerRepository.find({ where: { user_id } });
-    return res.status(HttpStatusCode.OK).json(healers);
-  } catch (error) {
-    logger.error(error);
-    return res
-      .status(HttpStatusCode.NOT_FOUND)
-      .json({ message: "Error retrieving healer " });
+healerRoute.get(
+  "/healer-schedule/:user_id",
+  async (req: Request, res: Response) => {
+    const { user_id } = req.params;
+    const source = dbConnection;
+    try {
+      const healerRepository = source.getRepository(Calendar);
+      const healers = await healerRepository.find({ where: { user_id } });
+      return res.status(HttpStatusCode.OK).json(healers);
+    } catch (error) {
+      logger.error(error);
+      return res
+        .status(HttpStatusCode.NOT_FOUND)
+        .json({ message: "Error retrieving healer " });
+    }
   }
-});
+);
