@@ -25,8 +25,6 @@ customerRoute.get(
     const { user_id } = req.params;
     const source = dbConnection;
     try {
-      console.log("HERER ");
-
       const customerRepository = source.getRepository(Customer);
       const customer = await customerRepository.findOne({ where: { user_id } });
       return res.status(HttpStatusCode.OK).json([customer]);

@@ -1,4 +1,4 @@
-import { authRoute, customerRoute, verifyRoute } from "./routes";
+import { authRoute, customerRoute, verifyRoute, healerRoute } from "./routes";
 import { dbConnection } from "./config";
 import { logger } from "./utils";
 import express from "express";
@@ -15,9 +15,10 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors());
 
-app.use("/api-v1", authRoute);
-app.use("/api-v1", verifyRoute);
 app.use("/api-v1", customerRoute);
+app.use("/api-v1", verifyRoute);
+app.use("/api-v1", authRoute);
+app.use("/api-v1", healerRoute);
 
 dbConnection
   .initialize()
