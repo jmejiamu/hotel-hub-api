@@ -81,3 +81,17 @@ healerRoute.get(
     }
   }
 );
+
+healerRoute.get("/healers/calendar", async (_: Request, res: Response) => {
+  const source = dbConnection;
+  try {
+    const healerRepository = source.getRepository(Calendar);
+    const healers = await healerRepository.find();
+    return res.status(HttpStatusCode.OK).json(healers);
+  } catch (error) {
+    logger.error(error);
+    return res
+      .status(HttpStatusCode.NOT_FOUND)
+      .json({ message: "Error retrieving healer " });
+  }
+});
