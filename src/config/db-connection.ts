@@ -8,6 +8,7 @@ import {
   FrontendDesk,
   Healer,
   Calendar,
+  CustomerCalendar,
 } from "../entities";
 dotenv.config();
 
@@ -28,6 +29,7 @@ export const dbConnection = new DataSource({
     FrontendDesk,
     Healer,
     Calendar,
+    CustomerCalendar,
   ],
   synchronize: true,
 });
