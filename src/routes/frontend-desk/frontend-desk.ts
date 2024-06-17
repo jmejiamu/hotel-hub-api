@@ -5,7 +5,7 @@ import { CustomerCalendar } from "../../entities";
 
 export const frontendDesk = express.Router();
 
-frontendDesk.put("customer-calendar", async (req: Request, res: Response) => {
+frontendDesk.put("/customer-calendar", async (req: Request, res: Response) => {
   const {
     user_id,
     userType,
@@ -59,7 +59,7 @@ frontendDesk.put("customer-calendar", async (req: Request, res: Response) => {
 });
 
 frontendDesk.get(
-  "customer-event/:user_id",
+  "/customer-event/:user_id",
   async (req: Request, res: Response) => {
     const { user_id } = req.params;
     const source = dbConnection;
