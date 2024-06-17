@@ -1,4 +1,10 @@
-import { authRoute, customerRoute, verifyRoute, healerRoute } from "./routes";
+import {
+  authRoute,
+  customerRoute,
+  verifyRoute,
+  healerRoute,
+  frontendDesk,
+} from "./routes";
 import { dbConnection } from "./config";
 import { logger } from "./utils";
 import express from "express";
@@ -19,6 +25,7 @@ app.use("/api-v1", customerRoute);
 app.use("/api-v1", verifyRoute);
 app.use("/api-v1", authRoute);
 app.use("/api-v1", healerRoute);
+app.use("/api-v1", frontendDesk);
 
 dbConnection
   .initialize()
